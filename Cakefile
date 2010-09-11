@@ -1,5 +1,6 @@
 fs = require 'fs'
 sys = require 'sys'
+path = require 'path'
 
 dir = "build"
 
@@ -23,8 +24,43 @@ task 'build:js', 'compile the coffeescript files to js', () ->
   compile.stderr.addListener "data", (data) ->
     sys.puts data
   compile.addListener "exit", (code) ->
-    sys.puts "Coffe compile exited with exit code $code." if code != 0
+    sys.puts "Coffee compile exited with exit code $code." if code != 0
+
+task 'build:includes', 'symlink the includes files the build folder', () ->
+  fs.stat 'includes', (err, stats) ->
+    if stats.isDirectory()
+      fs.readdir 'includes', (err, files) ->
+        for file in files
+          file: path.join 'includes',file
+          fs.stat file, (err, stats) ->
+            if stats.isDirectory()
+              f: path.basename file
+              output: "$dir/$f"
+              path.exists output, (exists) ->
+                linkFiles: () ->
+                  fs.readdir file, (err, files) ->
+                      for link in files
+                        orig: path.join process.cwd(), file, link
+                        linkdata: path.join output, link
+                        fs.symlink orig, linkdata, (err) ->
+                          if err?
+                            sys.puts orig, linkdata
+                            sys.puts err
+                if not exists
+                  fs.mkdir output, 0755, linkFiles
+                else
+                  linkFiles()
 
 task 'build', 'build everything', () ->
     invoke 'build:html'
     invoke 'build:js'
+    invoke 'build:includes'
+
+task 'clean', 'remove the build folder', () ->
+  clean: require("child_process").spawn "rm", ["-rf", dir]
+  clean.stdout.addListener "data", (data) ->
+    sys.puts data
+  clean.stderr.addListener "data", (data) ->
+    sys.puts data
+  clean.addListener "exit", (code) ->
+    sys.puts "Removal of $dir error!" if code != 0
