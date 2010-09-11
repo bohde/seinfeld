@@ -12,11 +12,19 @@ task 'build:html', 'compile the jade template files to html', () ->
       fs.mkdir "$dir", 0755,() ->
         fs.writeFile "$dir/index.html", html
 
+coffeeFiles = [
+    "coffee/seinfeld.coffee",
+]
+
 task 'build:js', 'compile the coffeescript files to js', () ->
-  compile: require("child_process").spawn "coffee", ["-c", "-o", "$dir/js", "coffee/seinfeld.coffee"]
+  compile: require("child_process").spawn "coffee", ["-c", "-o", "$dir/js"].concat coffeeFiles
   compile.stdout.addListener "data", (data) ->
     sys.puts data
   compile.stderr.addListener "data", (data) ->
     sys.puts data
   compile.addListener "exit", (code) ->
-    sys.puts "Coffe compile exited with exit code $code."
+    sys.puts "Coffe compile exited with exit code $code." if code != 0
+
+task 'build', 'build everything', () ->
+    invoke 'build:html'
+    invoke 'build:js'
