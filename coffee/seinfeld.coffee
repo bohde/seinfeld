@@ -1,5 +1,8 @@
-# What month is it?
+# Let's set the month title
+setMonthTitle: (date) ->
+  $('h2').text date.toString("MMMM")
 
-month: () ->
-  Date.today().getMonth()
-
+$(()->
+  date = Date.today()
+  setMonthTitle(date)
+)
