@@ -1,8 +1,8 @@
 setMonthTitle: (date) ->
-  $('h2').text date.toString("MMMM")
+  $('.current').text date.toString("MMMM")
 
 calcDaysInMonth: (day) ->
-  day: day.moveToFirstDayOfMonth()
+  day: day.clone().moveToFirstDayOfMonth()
   month: day.getMonth()
   if not day.is().sunday()
       day.last().sunday()
@@ -15,6 +15,14 @@ calcDaysInMonth: (day) ->
 
 $(()->
   date: Date.today()
-  setMonthTitle date
-  calcDaysInMonth date.clone()
+  populatePage: () ->
+    setMonthTitle date
+    calcDaysInMonth date
+  changePage: (num) ->
+    ()->
+      date.addMonths num
+      populatePage()
+  $('a.next').click changePage 1
+  $('a.previous').click changePage(-1)
+  populatePage()
 )

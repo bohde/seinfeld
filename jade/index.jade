@@ -11,7 +11,11 @@ html(lang="en")
     header
       h1 Seinfeld Calendar
     section
-      h2 This Month
+
+      h2
+        a(href: "#", class: "previous") &laquo
+        span(class: "current") This Month
+        a(href: "#", class: "next") &raquo
       table
         tr.days
           - each day in days
