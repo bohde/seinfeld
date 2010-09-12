@@ -10,16 +10,17 @@ html(lang="en")
     script(src: "js/adaptors/LawnchairAdaptorHelpers.js")
     script(src: "js/adaptors/WebkitSQLiteAdaptor.js")
     script(src: "js/seinfeld.js")
+    link(href: 'http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica', rel:'stylesheet')
+    link(href: 'http://yui.yahooapis.com/2.8.1/build/reset/reset-min.css', rel:'stylesheet')
     link(href: "css/style.css", rel: "stylesheet")
+
   body
     header
-      h1 Seinfeld Calendar
-    section
-
-      h2
+      h1
         a(href: "#", class: "previous") &laquo
         span(class: "current") This Month
         a(href: "#", class: "next") &raquo
+    section
       table
         tr.days
           - each day in days
