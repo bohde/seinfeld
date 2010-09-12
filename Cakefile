@@ -43,29 +43,14 @@ task 'build:css', 'compile the sass files to css', () ->
       write()
 
 task 'build:includes', 'symlink the includes files the build folder', () ->
-  fs.stat 'includes', (err, stats) ->
-    if stats.isDirectory()
-      fs.readdir 'includes', (err, files) ->
-        for file in files
-          file: path.join 'includes',file
-          fs.stat file, (err, stats) ->
-            if stats.isDirectory()
-              f: path.basename file
-              output: "$dir/$f"
-              path.exists output, (exists) ->
-                linkFiles: () ->
-                  fs.readdir file, (err, files) ->
-                      for link in files
-                        orig: path.join process.cwd(), file, link
-                        linkdata: path.join output, link
-                        fs.symlink orig, linkdata, (err) ->
-                          if err?
-                            sys.puts orig, linkdata
-                            sys.puts err
-                if not exists
-                  fs.mkdir output, 0755, linkFiles
-                else
-                  linkFiles()
+  cp: require("child_process").spawn "cp", ["-R", "includes/img", "includes/js", "$dir"]
+  cp.stdout.addListener "data", (data) ->
+    sys.puts data
+  cp.stderr.addListener "data", (data) ->
+    sys.puts data
+  cp.addListener "exit", (code) ->
+    sys.puts "cp exited with exit code $code." if code != 0
+
 
 task 'build', 'build everything', () ->
     invoke 'build:html'
