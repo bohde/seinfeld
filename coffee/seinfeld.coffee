@@ -12,6 +12,7 @@ $(()->
         day.last().sunday()
     $('td.day').each () ->
       block: $ this
+      block.removeClass "marked other"
       block.text day.toString "d"
       blockDate: day.toString "MMM-d"
       block.attr 'data-date', blockDate
