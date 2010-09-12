@@ -40,6 +40,11 @@ $(()->
     else
       store.remove block.attr 'data-date'
 
+  $('a.explanation').click ->
+    $(this).hide()
+    $('ol.help').show "fast"
+    false
+
   $('td.day').click toggleMarked
   $('a.next').click changePage 1
   $('a.previous').click changePage(-1)
