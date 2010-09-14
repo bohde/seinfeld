@@ -28,19 +28,21 @@ task 'build:js', 'compile the coffeescript files to js', () ->
 
 task 'build:css', 'compile the sass files to css', () ->
   sass: require 'sass'
-  input: fs.createReadStream 'sass/style.sass'
-  buffer: ""
-  input.addListener "data", (data) ->
-    buffer += data
-  input.addListener "end", (data) ->
-    buildpath: 'build/css/style.css'
-    write: ->
-      output: fs.createWriteStream buildpath
-      output.write sass.render buffer
-    if not path.exists path.dirname buildpath
-      fs.mkdir path.dirname(buildpath), 0755, write
-    else
-      write()
+  for f in ["style", "big"]
+
+    input: fs.createReadStream "sass/${f}.sass"
+    buffer: ""
+    input.addListener "data", (data) ->
+      buffer += data
+    input.addListener "end", (data) ->
+      buildpath: "build/css/${f}.css"
+      write: ->
+        output: fs.createWriteStream buildpath
+        output.write sass.render buffer
+      if not path.exists path.dirname buildpath
+        fs.mkdir path.dirname(buildpath), 0755, write
+      else
+        write()
 
 task 'build:includes', 'symlink the includes files the build folder', () ->
   cp: require("child_process").spawn "cp", ["-R", "includes/img", "includes/js", "$dir"]

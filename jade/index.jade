@@ -10,9 +10,13 @@ html(lang="en")
     script(src: "js/adaptors/LawnchairAdaptorHelpers.js")
     script(src: "js/adaptors/WebkitSQLiteAdaptor.js")
     script(src: "js/seinfeld.js")
+    meta(content:'True', name:'HandheldFriendly')
+    meta(content:'width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;', name='viewport')
+
     link(href: 'http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica', rel:'stylesheet')
     link(href: 'http://yui.yahooapis.com/2.8.1/build/reset/reset-min.css', rel:'stylesheet')
     link(href: "css/style.css", rel: "stylesheet")
+    link(href: "css/big.css", rel: "stylesheet", media: "screen and (min-width: 640px)")
 
   body
     header

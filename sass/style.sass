@@ -1,34 +1,31 @@
-width: 480px
-block: 68px
-
 body
   :color #333
-  :width $width
+  :width 100%
   :margin auto
   :text-align center
   :font-family 'IM Fell DW Pica'
 
 table
-  :width !width
+  :width 100%
   :margin auto
 
 td
   &.other
     :color #aaa
   &.marked
-    :background-image url('../img/x.png')
-  :width !block
-  :font-size 2em
+    :background url('../img/x.png') no-repeat center center
+    =background-size contain
+  :width 0.14285714285714285%
+  :font-size 1.5em
   &.day
-    :height !block
-    :font-size 3em
+    :font-size 2em
     
 tr.days td
   :font-weight bold
   :border-bottom 1px solid #333
 
 h1
-  :font-size 3em
+  :font-size 2em
   
   span.current
     :margin 0 1em
