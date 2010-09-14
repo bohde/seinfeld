@@ -2,7 +2,7 @@ fs = require 'fs'
 sys = require 'sys'
 path = require 'path'
 
-dir = "build"
+dir = "."
 
 task 'build:html', 'compile the jade template files to html', () ->
   jade = require 'jade'
