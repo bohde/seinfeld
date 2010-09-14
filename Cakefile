@@ -35,7 +35,7 @@ task 'build:css', 'compile the sass files to css', () ->
     input.addListener "data", (data) ->
       buffer += data
     input.addListener "end", (data) ->
-      buildpath: "build/css/${f}.css"
+      buildpath: "${dir}/css/${f}.css"
       write: ->
         output: fs.createWriteStream buildpath
         output.write sass.render buffer
